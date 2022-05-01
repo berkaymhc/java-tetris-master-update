@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 
 public class InputHandler implements KeyListener {
 	private Game game;
-		
+
 	public InputHandler(Display display, Game game) {
 		display.getCanvas().addKeyListener(this);
 		this.game = game;
@@ -17,7 +17,7 @@ public class InputHandler implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 
-		if (keyCode == KeyEvent.VK_SPACE) {
+		if (keyCode == KeyEvent.VK_UP) {
 			game.rotatePiece();
 		} else if (keyCode == KeyEvent.VK_DOWN) {
 			game.movePieceDown();

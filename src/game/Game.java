@@ -11,7 +11,7 @@ import states.State;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Game {
+public class Game implements Runnable{
 
 	private static final int NEXT_PIECE_X = 11;
 	private static final int NEXT_PIECE_Y = 1;
@@ -27,7 +27,7 @@ public class Game {
 	
 	private Display display;
 	private String title;
-	private boolean running = false;	
+	private boolean running = false;
 	@SuppressWarnings("unused")
 	private InputHandler inputHandler;
 	private BufferStrategy bs;
@@ -36,7 +36,7 @@ public class Game {
 	private State menuState;
 	private State settingsState;
 	private Field field;
-	
+	private Thread thread;
 	private Piece currentPiece;
 	private Piece nextPiece;
 	
@@ -49,7 +49,14 @@ public class Game {
 		
 		this.setCurrentPiece(PieceGenerator.generatePiece());
 		this.setNextPiece(PieceGenerator.generatePiece(Game.NEXT_PIECE_X, Game.NEXT_PIECE_Y));
-	}		
+	}
+	public void start(){
+		System.out.println("thread nesnesi oluşuyor");
+		if (thread == null){
+			thread = new Thread(this,title);
+			thread.start();
+		}
+	}
 
 	private String getTitle() {
 		return title;
@@ -90,6 +97,7 @@ public class Game {
 	private void setPaused(boolean paused) {
 		this.paused = paused;
 	}
+
 
 	private void init() {
 		this.display = new Display(this.getTitle(), Game.DISPLAY_WIDTH, Game.DISPLAY_HEIGHT);
@@ -164,10 +172,10 @@ public class Game {
 		// Shows everything stored in the Graphics object
 		this.graphics.dispose();
 	}
-	
+
 	public void run() {
 		this.init();
-		
+
 		while (this.isRunning()) {
 			try {
 				Thread.sleep(1000);
@@ -175,21 +183,23 @@ public class Game {
 				e.printStackTrace();
 				break;
 			}
+			if (currentPiece.getY() == 0) {
+				setRunning(field.stop());
+			}
 
 			this.tick();
 			this.render();
 		}
 	}
 
-	public void pause() {
-		this.paused = true;
+	public void pause() { this.paused = true;
 	}
 
 	public void resume() {
 		this.paused = false;
 	}
 
-	private void swithToNextPiece() {		
+	private void swithToNextPiece() {
 		// get next piece
 		Piece nextPiece = this.getNextPiece();				
 		// move it to the staring position of the field
@@ -240,5 +250,4 @@ public class Game {
 				this.render();
 			}
 		}
-	}
-}
+	}}
