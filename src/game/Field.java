@@ -9,11 +9,11 @@ import java.util.Random;
 public class Field {
 	private static final Color[] FIELD_COLORS = { Color.RED, Color.LIGHT_GRAY, Color.MAGENTA, Color.PINK, Color.GREEN,
 			Color.ORANGE, Color.CYAN };
+	int score =0;
 
 	private FieldSquare[][] field;
 	private Color[][] fieldColor;
 	private Random random;
-	private int score = 0;
 
 	public Field(int fieldHeight, int fieldWidth) {
 		this.random = new Random();
@@ -39,7 +39,6 @@ public class Field {
 	public boolean stop() {
 		for (int col = 0; col < field[0].length; col++) {
 			if (this.field[1][col] != FieldSquare.EMPTY ) {
-				System.out.println("Your score = 100");
 				return false;
 			}
 		}
@@ -231,6 +230,7 @@ public class Field {
 				}
 			}
 			if (isFullRow) {
+				score+=100;
 				this.shiftRows(row);
 			}
 		}

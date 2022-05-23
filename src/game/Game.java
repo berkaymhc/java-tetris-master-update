@@ -8,8 +8,11 @@ import states.MenuState;
 import states.SettingsState;
 import states.State;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+
+
 
 public class Game implements Runnable{
 
@@ -56,6 +59,10 @@ public class Game implements Runnable{
 			thread = new Thread(this,title);
 			thread.start();
 		}
+	}
+	public void paint(Graphics g) {
+		g.setColor(Color.RED);
+		g.drawString("SCORE : "+ field.score, 320, 300);
 	}
 
 	private String getTitle() {
@@ -160,6 +167,7 @@ public class Game implements Runnable{
 		this.currentPiece.render(this.graphics);
 		this.nextPiece.render(this.graphics);
 
+		paint(graphics);
 		// Checks if a State exists and render()
 		// if (StateManager.getState() != null){
 		// StateManager.getState().render(this.g);
